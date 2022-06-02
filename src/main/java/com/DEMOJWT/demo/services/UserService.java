@@ -1,13 +1,29 @@
 package com.DEMOJWT.demo.services;
 
 import com.DEMOJWT.demo.dto.User;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
+import com.DEMOJWT.demo.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-public interface UserService {
-    public Flux<User> findAll();
+import java.util.List;
 
-    public Mono<User> save(User user);
+@Service
+public class UserService {
 
-    public Mono<User> findById (String id);
+    @Autowired
+    UserRepository userRepository;
+
+    public List<User> obtenerTodos() {
+        List<User> users = (List<User>) userRepository.findAll();
+        return users;
+    }
+
+    public User crear(User user) {
+       return userRepository.save(user);
+    }
+
+    public User obtenerPorUser(String username){
+        return userRepository.findByUser(username);
+    }
+
 }
